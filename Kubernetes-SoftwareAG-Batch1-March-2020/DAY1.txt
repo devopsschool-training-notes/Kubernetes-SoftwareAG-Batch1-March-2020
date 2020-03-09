@@ -1,0 +1,257 @@
+========================
+Master
+	API SERVER	- POD -> Container -> Docker Image -> Registry -> GR
+	ETCD		- POD -> Container -> Docker Image -> Registry -> GR
+	Controller mgr	- POD -> Container -> Docker Image -> Registry -> GR
+	Schedular	- POD -> Container -> Docker Image -> Registry -> GR
+
+	Kubelet
+	Docker
+	Kube Proxy	- POD -> Container -> Docker Image -> Registry -> GR
+		Network Policy(Weavenet)
+
+Worker
+	Kubelet
+	Docker
+	Kube Proxy
+		Network Policy(Weavenet)
+
+Workstation
+	Kubectl
+		config(kube config)
+	-------------------------------------
+	~/.kube/config OR CURR_DIR/.kube/config or KUBECONFIG
+
+
+
+
+		
+=================================================
+How to setup k8s clustor?
+
+https://kubernetes.io/docs/setup/
+
+Learning
+	minikube
+		VM
+		- MASTER + WORKER
+PUB Cloud
+		MANUAL 	PAAS
+	AWS	KOPS	EKS
+	GC	KOPS	GKE
+	AZURE	KOPS	AKS
+
+Pvt Cloud
+	KOPS	
+	
+Physical Machine - MANUAL
+	kubeadm
+
+VM - MANUAL
+	kubeadm
+
+Hardway -
+https://github.com/kelseyhightower/kubernetes-the-hard-way
+
+==========================================================
+Setting up a clstor using kubeadm in Vm
+=========================================
+Master - 4GB - 100 GB.
+	2 CPU
+===========================
+RHEL 7.5  - 13.232.48.123
+ec2-user
+
+Tools needs to be installed 
+- Docker
+https://www.devopsschool.com/tutorial/docker/install-config/docker-install-commuityedition-centos-rhel.html
+
+- Kubeadm
+- Kubelet
+- Kubectl
+https://www.devopsschool.com/blog/setting-up-kubernetes-clusters-using-kubeadm-manual-way-in-rhel-7-centos7/
+
+
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.31.18.68:6443 --token qmwm0l.6l9r412y2vrz2rr5 --discovery-token-ca-cert-hash 
+
+sha256:e00ccfaceed7f1531cadf204a16e296397e258e303fdbfa0acfe018cf28ffc6f
+
+
+content of config(kube config)
+----------------------------------------
+Clustor(s)
+	C1
+	C2
+	C3
+
+user(s)
+	u1
+	u2
+	u3
+
+context(s)
+	c1=c1+u2
+	.......
+
+curr context
+	c1 
+
+How to setup worker?
+52.66.210.113
+
+
+
+
+  1  sudo -s
+    2  clear
+    3  mkdir -p $HOME/.kube
+    4  cd
+    5  ls
+    6  ls -la
+    7  ls .kube
+    8  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    9  ls
+   10  ls .kube
+   11  clear
+   12  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+   13  ls
+   14  more .kube/config
+   15  clear
+   16  kubectl
+   17  kubectl cluster-info
+   18  kubectl
+   19  clear
+   20  kubectl get nodes
+   21  kubectl get pods
+   22  clear
+   23  kubectl get ns
+   24  kubectl get pods
+   25  kubectl get pods -n=kube-system
+   26  kubectl cluster-info
+   27  kubectl get nodes
+   28  kubectl get pods -n=kube-system
+   29  clear
+   30  kubectl get nodes
+   31  kubectl get pods -n=kube-system
+   32  clear
+   33  kubectl get pods -n=kube-system
+   34  kubectl describe pod coredns-6955765f44-sl5tk
+   35  kubectl describe pod coredns-6955765f44-sl5tk -n=kube-system
+   36  clear
+   37  kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d 
+
+'\n')"
+   38  kubectl get pods -n=kube-system
+   39  kubectl get nodes
+   40  kubectl describe pod weave-net-2fnjc
+   41  kubectl describe pod weave-net-2fnjc -n=kube-system
+   42  kubectl get pods -n=kube-system
+   43  kubectl describe pod coredns-6955765f44-sl5tk -n=kube-system
+   44  kubectl get nodes
+   45  kubectl get ns
+   46  kubectl delete ns default
+   47  kubectl create ns dev
+   48  kubectl get ns
+   49  kubectl delete ns dev
+   50  kubectl get pod --all-namespaces
+   51  clear
+   52  kubectl get nodes
+   53  kubectl describe node ip-172-31-20-12.ap-south-1.compute.internal
+   54  kubectl get nodes
+   55  clear
+   56  kubectl get pods --all-namespaces
+   57  clear
+   58  kubectl get pods --all-namespaces
+   59  kubectl get pods --all-namespaces -o wide
+   60  clear
+   61  kubectl get pods --all-namespaces -o wide
+   62  clear
+   63  kubectl get nodes
+   64  history
+
+=====================================================================
+Working with Namespaces
+Working with PODS..
+Working with ?????????
+
+How many API resources and their verision?
+====================================================
+  56  kubectl get pods --all-namespaces
+   57  clear
+   58  kubectl get pods --all-namespaces
+   59  kubectl get pods --all-namespaces -o wide
+   60  clear
+   61  kubectl get pods --all-namespaces -o wide
+   62  clear
+   63  kubectl get nodes
+   64  history
+   65  clear
+   66  kubectl
+   67  kubectl api-resources
+   68  kubectl
+   69  kubectl api-versions
+   70  kubectl api-resources
+   71  kubectl api-versions
+   72  history
+
+=====================================================
+Each Resources 
+	CRUD
+
+	CREATE	=>   	create
+	READ	=> 	get
+	UPDATE	=> 	edit(CMD) && apply(YAML) && patch
+	DELETE	=> 	delete
+	
+	
+	CMD AND YAML
+
+	kubectl create pod XX(CMD/)
+	kubectl create pod yaml 
+	kubectl get pods 
+	kubectl edit pod podname
+	kubectl apply pod yamfile
+	kubectl delete pod podname
+
+	SUPPORETD CMD
+	==========================
+	describe	Show details of a specific resource or group of resources
+	
+=========================================================
+ASSINGMENT
+	WORK WITH NAMESAPCE
+		DO 
+			CRUD
+
+
+
+
+IP - 13.232.48.123
+user ec2-user
+https://www.devopsschool.com/notes/docker/2019/
+rajesh-mumbai.ppk
+
+
+Kubernetes-SoftwareAG-Batch1-March-2020
+
+
+
+
+
+
+
+
+

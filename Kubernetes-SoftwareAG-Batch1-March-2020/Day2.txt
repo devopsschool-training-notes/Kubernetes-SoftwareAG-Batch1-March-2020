@@ -1,3 +1,5 @@
+13.232.48.123
+
 List of Servers for Master and Workstation?
 ================================================
 1 13.127.203.167
@@ -8,7 +10,7 @@ List of Servers for Master and Workstation?
 6 13.233.225.46
 7 13.232.59.40
 8 35.154.246.78
-8 13.232.51.149
+9 13.232.51.149
 10 13.233.167.166
 11 13.234.77.43
 12 15.206.169.142
@@ -34,3 +36,204 @@ User Name - ec2-user
 Key - YOU KNOW WELL
 
 ==============================
+============================================
+
+13.232.48.123
+
+
+
+POD 
+========================
+CMD | YAML
+NO  | YES
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: hello-pod
+  labels: 
+    app: webserver
+spec:
+  containers:
+  - name: hello-ctr
+    image: nginx
+    ports:
+    - containerPort: 80
+
+ 704  kubectl
+  705  kubectl api-resources
+  706  kubectl api-resources | grep pod
+  707  clear
+  708  ls
+  709  kubectl
+  710  kubectl  api-versions
+  711  clear
+  712  kubectl
+  713  kubectl explain
+  714  kubectl explain pod
+  715  kubectl explain pod.spec
+  716  kubectl explain pod.spec | grep required
+  717  history
+
+CRUD
+	CREATE	=>   	create
+	READ	=> 	get
+	UPDATE	=> 	edit(CMD) && apply(YAML) && patch
+	DELETE	=> 	delete
+	
+kubectl create -f pod.yaml
+kubectl get pod 
+kubectl create -f pod.yaml
+kubectl create -f pod.yaml -n=raj
+kubectl get pod -n=raj
+kubectl edit pod podname -n=raj
+kubectl delete pod podname -n=raj
+
+  735  kubectl get pod --all-namespaces
+  736  clear
+  737  ls
+  738  kubectl get nodes
+  739  kubectl get pod
+  740  kubectl create ns dev
+  741  kubectl create ns raj
+  742  kNAME        READY   STATUS    RESTARTS   AGE
+  743  kubectl create -f pod.yaml -n=raj
+  744  clear
+  745  kubectl create -f pod.yaml -n=raj
+  746  kubectl get pod -n=raj
+  747  kubectl edit pod podname -n=raj
+  748  kubectl edit pod hello-pod -n=raj
+  749  kubectl describe pod hello-pod -n=raj
+  750  kubectl delete pod hello-pod -n=raj
+  751  kubectl get pod -n=raj
+  752  kubectl get pod
+  753  history
+
+How to work with a POD? Container
+================================
+docker exec 
+docker attach
+docker inspect
+docker ps
+docker logs
+docker cp
+
+kubectl describe pod podname
+kubectl top
+kubectl logs
+kubectl attach
+kubectl exec
+kubectl cp
+
+  716  kubectl get pod -n=kube-system
+  717  clear
+  718  kubectl get pod -=kube-system
+  719  kubectl get pod
+  720  kubectl describe pod hello-pod
+  721  clear
+  722  kubectl describe pod hello-pod
+  723  ls
+  724  clear
+  725  kubectl get pod
+  726  kubectl delete pod hello-pod
+  727  kubectl get pod
+  728  kubectl delete pod hello-pod
+  729  kubectl delete pod hello-pod --grace-period=0 --force
+  730  kubectl delete pod hello-pod
+  731  kubectl get pod
+  732  clear
+  733  ls
+  734  kubectl create -f pod.yaml
+  735  kubectl get pod
+  736  clear
+  737  kubectl get pod
+  738  kubectl get pod -o wide
+  739  curl http://10.36.0.5
+
+
+
+ 787  kubectl logs pods
+  788  kubectl logs
+  789  kubectl logs -h
+  790  clear
+  791  kubectl logs -h
+  792  clear
+  793  kubectl get pod
+  794  kubectl exec hello-pod ls
+  795  kubectl exec -it hello-pod /bin/bash
+  796  kubectl get pod
+  797  clear
+  798  kubectl get pod
+  799  kubectl attach hello-pod
+  800  kubectl get pod
+  801  clear
+  802  kubectl get pod
+  803  kubectl describe pod hello-pod
+  804  clear
+  805  kubectl get pod
+  806  kubectl attach hello-pod
+  807  kubectl get pod
+  808  history
+
+
+  809  c
+  810  clear
+  811  kubectl cp -h
+  812  clear
+  813  ls
+  814  kubectl cp pod1.yaml pod.yaml hello-pod:/opt
+  815  kubectl cp pod1.yaml hello-pod:/opt
+  816  kubectl exec hello-pod ls /opt
+  817  ls
+  818  rm -rf pod1.yaml
+  819  kubectl cp hello-pod:/opt/pod1.yaml .
+  820  ls
+  821  kubectl cp hello-pod:/opt/pod1.yaml /tmp/
+  822  kubectl cp -h
+  823  kubectl cp hello-pod:/opt/pod1.yaml /tmp
+  824  kubectl cp default/hello-pod:/opt/pod1.yaml /tmp
+  825  kubectl cp default/hello-pod:/opt/pod1.yaml /tmp/pod1.yaml
+  826  kubectl exec default/hello-pod ls /opt/
+  827  kubectl exec hello-pod ls /opt/
+  828  ls /tmp/
+  829  rm -rf /tmp/pod1.yaml
+  830  kubectl cp default/hello-pod:/opt/pod1.yaml /tmp/pod1.yaml
+  831  ls /tmp/
+  832  more /tmp/pod1.yaml
+  833  ls
+  834  clear
+  835  history
+
+
+
+REPLICATION CONTROLLER
+
+
+DEPLOYMENT
+
+
+NODES
+
+
+
+SERVICE
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

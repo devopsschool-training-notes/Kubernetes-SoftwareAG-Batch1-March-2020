@@ -208,6 +208,94 @@ kubectl cp
 
 
 REPLICATION CONTROLLER
+===============================================================
+REPLICATION  - Replicate number of PODS.
+CONTROLLER - Check a Desire must match with Actual.
+
+apiVersion: v1
+kind: ReplicationController
+metadata:
+  name: hello-rc
+spec:
+  replicas: 2   
+  template:
+    metadata:
+      labels:
+        app: hello-world
+    spec:
+      containers:
+      - name: hello-ctr
+        image: nginx
+        ports:
+        - containerPort: 80
+
+
+
+CRUD
+	CREATE	=>   	create
+	READ	=> 	get
+	UPDATE	=> 	edit(CMD) && apply(YAML) && patch
+	DELETE	=> 	delete
+
+
+ 837  kubectl
+  838  clear
+  839  kubectl create -h
+  840  clear
+  841  kubectl explain rc
+  842  kubectl explain rc.spec
+  843  kubectl explain rc.spec.template
+  844  kubectl explain rc.spec | grep reuired
+  845  kubectl explain rc.spec | grep reuqired
+  846  kubectl explain rc.spec | grep reuquired
+  847  kubectl explain rc.spec | grep required
+  848  kubectl explain rc.spec.template | grep required
+  849  kubectl explain rc.spec.template.spec | grep required
+  850  clear
+  851  vi rc.yaml
+  852  kubectl create -f rc
+  853  kubectl create -f rc.yaml
+  854  kubectl create -f rc.yaml -n=raj
+  855  kubectl get rc
+  856  kubectl get pods
+  857  kubectl get pods -n=raj
+  858  kubectl describe rc hello-rc
+  859  clear
+  860  kubectl edit rc hello-rc
+  861  kubectl get pods
+  862  clear
+  863  kubectl get pods
+  864  clear
+  865  kubectl get pods
+  866  clear
+  867  kubectl get pods
+  868  clear
+  869  kubectl get pods
+  870  clear
+  871  kubectl edit rc hello-rcfff
+  872  vi rc.yaml
+  873  kubectl apply -f rc.yaml
+  874  kubectl get pods
+  875  clear
+  876  vi rc.yaml
+  877  kubectl apply -f rc.yaml
+  878  kubectl get pods
+  879  clear
+  880  kubectl get pods
+  881  clear
+  882  kubectl get pods
+  883  kubectl delete pod hello-pod  hello-pod1
+  884  kubectl get pods
+  885  kubectl delete pod hello-rc-xw75w
+  886  kubectl get pods
+  887  kubectl delete rc hello-rc
+  888  kubectl get pods
+  889  kubectl delete rc hello-rc -n=raj
+  890  kubectl get pods
+  891  clear
+  892  history
+
+
 
 
 DEPLOYMENT

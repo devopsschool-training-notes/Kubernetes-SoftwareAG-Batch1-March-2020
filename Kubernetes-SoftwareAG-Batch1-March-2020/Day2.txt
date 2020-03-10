@@ -299,6 +299,148 @@ CRUD
 
 
 DEPLOYMENT
+===============================================
+Image
+scmgalaxy/nginx-devopsschoolv1
+scmgalaxy/nginx-devopsschoolv2
+
+REPLICATION+
+CONTROLLER +
+VERSIOING
+ROLLOUT
+ROLLBACK
+
+
+CRUD
+	CREATE	=>   	create
+	READ	=> 	get
+	UPDATE	=> 	edit(CMD) && apply(YAML) && patch
+	DELETE	=> 	delete
+
+
+
+kubectl create deployment my-dep --image=nginx
+
+
+ 891  clear
+  892  history
+  893  clear
+  894  kubectl create -h
+  895  clear
+  896  kubectl create deploy -h
+  897  clear
+  898  kubectl get deploy
+  899  kubectl create deployment my-dep --image=nginx
+  900  kubectl get deploy
+  901  kubectl get deploy my-dep -o yaml
+  902  kubectl get deploy my-dep -o yaml --export
+  903  kubectl get deploy my-dep -o yaml --export >> raj.yaml
+  904  clear
+  905  kubectl get deploy my-dep -o yaml --export >> raj.yaml
+  906  rm raj.yaml
+  907  kubectl get deploy my-dep -o yaml --export >> raj.yaml
+  908  ls
+  909  more raj.yaml
+  910  kubectl explain deploy
+  911  kubectl explain deploy.spec
+  912  kubectl explain deploy.spec.template
+  913  kubectl explain deploy.spec.template.containers
+  914  kubectl explain deploy.spec.template.spec.containers
+  915  kubectl explain deploy.spec.template.spec.containers | grep req
+  916  clear
+  917  vi raj.yaml
+  918  kubectl apply -f raj.yaml
+  919  kubectl get deploy
+  920  kubectl get pid
+  921  kubectl get pod
+  922  vi raj.yaml
+  923  kubectl apply -f raj.yaml
+  924  kubectl get pod
+  925  clear
+  926  kubectl get pod
+  927  c
+  928  clear
+  929  c
+  930  kubectl get pod
+  931  clear
+  932  kubectl get pod
+  933  clear
+  934  kubectl get pod
+  935  kubectl delete pod my-raj-6589b6f7dc-t5vtp
+  936  kubectl get pod
+  937  clear
+  938  ls
+  939  kubectl apply -f raj.yaml
+  940  kubectl get pod
+  941  clear
+  942  kubectl
+  943  kubectl rollout
+  944  kubectl rollout history
+  945  kubectl rollout history deploy my-raj
+  946  kubectl rollout status deploy my-raj
+  947  clear
+  948  vi raj.yaml
+  949  kubectl get pod
+  950  kubectl apply -f raj.yaml
+  951  kubectl get pod
+  952  clear
+  953  kubectl get pod
+  954  clear
+  955  kubectl get pod
+  956  clear
+  957  kubectl get pod
+  958  clear
+  959  kubectl get pod
+  960  kubectl describe pod my-raj-788b58b48-qmmqd
+  961  clear
+  962  ls
+  963  kubectl get pod
+  964  clear
+  965  kubectl get pod -o wide
+  966  clear
+  967  curl http://10.36.0.43
+  968  clear
+  969  kubectl rollout status deploy my-raj
+  970  kubectl rollout history deploy
+  971  kubectl edit deploy my-raj
+  972  clear
+  973  kubectl rollout status  deploy
+  974  kubectl rollout status  deploy my-raj
+  975  kubectl rollout status  deploy
+  976  kubectl rollout status  deploy my-raj
+  977  kubectl rollout history deploy
+  978  kubectl get pod -o wide
+  979  curl http://10.36.0.41
+  980  kubectl rollout -h
+  981  kubectl rollout undo
+  982  kubectl rollout undo -h
+  983  kubectl rollout undo deploy/my-raj --to-revision=2
+  984  kubectl rollout status  deploy my-raj
+  985  kubectl rollout history deploy
+  986  clear
+  987  kubectl get pod -o wide
+  988  curl http://10.36.0.39
+  989  kubectl rollout undo -h
+  990  kubectl rollout -h
+  991  history
+  992  more raj.yaml
+  993  clear
+  994  kubectl get pid
+  995  kubectl get pod
+  996  kubectl get pod --show-lables
+  997  kubectl get pod --show-labels
+  998  kubectl get deploy --show-labels
+  999  clear
+ 1000  kubectl get deploy
+ 1001  kubectl get deploy my-dep
+ 1002  kubectl describe deploy my-dep
+ 1003  kubectl get rc
+ 1004  kubectl describe rc hello-rc3
+ 1005  ear
+ 1006  clear
+ 1007  kubectl describe rc hello-rc3
+ 1008  history
+
 
 
 NODES

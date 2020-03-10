@@ -449,10 +449,78 @@ NODES
 
 SERVICE
 
+kubectl expose deploy my-raj --port=8080 --target-port=80
+kubectl expose deploy my-raj --port=8080 --target-port=80 --type=NodePort --name=my-node
+kubectl expose deploy my-raj --port=8080 --target-port=80 --type=LoadBalancer --name=my-lb
+
+service - 5.6.7.7:82 --->
+				POD 1 x.x.x.X
+				POD 2 x.x.x.X
+				pod 3 x.x.x.X
+
+
+http://raj-346110974.ap-south-1.elb.amazonaws.com	
 
 
 
 
+sag.k8.rajeshkumar.xyz
+
+
+ 1017  kubectl get deploy
+ 1018  ls
+ 1019  kubectl create -f raj.yaml
+ 1020  clwar
+ 1021  clear
+ 1022  kubectl get pods
+ 1023  clear
+ 1024  ls
+ 1025  clear
+ 1026  kubectl get pods
+ 1027  kubectl get svc
+ 1028  clear
+ 1029  kubectl get pods
+ 1030  kubectl get pods --show-labels
+ 1031  clear
+ 1032  kubectl get pods --show-labels
+ 1033  kubectl
+ 1034  clezr
+ 1035  clear
+ 1036  kubectl expose -h
+ 1037  clear
+ 1038  kubectl expose -h
+ 1039  kubectl get deploy
+ 1040  CLEAR
+ 1041  clear
+ 1042  kubectl expose deploy my-raj --port=8080 --target-port=80
+ 1043  kubectl get svc
+ 1044  curl http://10.98.249.18:8080
+ 1045  vi raj.yaml
+ 1046  kubectl create -f raj.yaml
+ 1047  kubectl apply -f raj.yaml
+ 1048  clear
+ 1049  kubectl get pods
+ 1050  kubectl exec -it my-raj-788b58b48-hgknb /bin/bash
+ 1051  kubectl get pods
+ 1052  kubectl exec -it my-raj-788b58b48-stn6m /bin/bash
+ 1053  clear
+ 1054  ls
+ 1055  kubectl get pods
+ 1056  kubectl get svc
+ 1057  curl http://10.98.249.18:8080
+ 1058  clear
+ 1059  kubectl expose deploy my-raj --port=8080 --target-port=80 --type=NodePort --name=my-node
+ 1060  kubectl get svc
+ 1061  curl http://10.110.171.247:8080
+ 1062  curl http://13.232.48.123:32206
+ 1063  clear
+ 1064  kubectl expose deploy my-raj --port=8080 --target-port=80 --type=LoadBalancer --name=my-lb
+ 1065  kubectl get svc
+ 1066  curl http://raj-346110974.ap-south-1.elb.amazonaws.com
+ 1067  clear
+ 1068  curl http://raj-346110974.ap-south-1.elb.amazonaws.com
+ 1069  historye
+ 1070  history
 
 
 

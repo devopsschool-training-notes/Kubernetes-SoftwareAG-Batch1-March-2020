@@ -564,6 +564,9 @@ spec:
 
 
 
+LABEL DEEP DIVER
+https://www.devopsschool.com/tutorial/kubernetes/labs/lab-12-kubernetes-labels.html
+
 
 
 

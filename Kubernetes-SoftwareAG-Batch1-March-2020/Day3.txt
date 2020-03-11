@@ -60,6 +60,212 @@ spec:
       # this field is optional
       type: DirectoryOrCreate
 
+==========================================================
+NFS
+https://www.devopsschool.com/blog/setup-nfs-server-and-use-inside-a-kubernetes-pods-in-rhel-centos7/
+https://www.devopsschool.com/blog/kubernetes-persistentvolume-and-persistentvolumeclaim-using-nfs-volume-types/
+
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    deployment.kubernetes.io/revision: "1"
+  creationTimestamp: null
+  generation: 1
+  labels:
+    app: my-dep
+  name: my-dep1
+  selfLink: /apis/apps/v1/namespaces/default/deployments/my-dep
+spec:
+  progressDeadlineSeconds: 600
+  replicas: 5
+  revisionHistoryLimit: 10
+  selector:
+    matchLabels:
+      app: my-dep
+  strategy:
+    rollingUpdate:
+      maxSurge: 25%
+      maxUnavailable: 25%
+    type: RollingUpdate
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app: my-dep
+    spec:
+      containers:
+      - image: scmgalaxy/nginx-devopsschoolv2
+        imagePullPolicy: Always
+        name: nginx-devopsschoolv1
+        volumeMounts:
+        - mountPath: /test-pd
+          name: test-volume
+        resources: {}
+        terminationMessagePath: /dev/termination-log
+        terminationMessagePolicy: File
+      volumes:
+      - name: test-volume
+        nfs:
+          server: 172.31.31.154
+          path: /softwareag
+      dnsPolicy: ClusterFirst
+      restartPolicy: Always
+      schedulerName: default-scheduler
+      securityContext: {}
+      terminationGracePeriodSeconds: 30
+status: {}
+
+
+=========================================
+PV and PVC using nfs
+https://www.devopsschool.com/blog/kubernetes-persistentvolume-and-persistentvolumeclaim-using-nfs-volume-types/
+
+
+apiVersion: v1
+kind: PersistentVolume
+metadata:
+  name: pv0001 
+spec:
+  capacity:
+    storage: 5Gi 
+  accessModes:
+  - ReadWriteOnce 
+  nfs: 
+    path: /softwareag/rrrrrrrr
+    server: 172.31.31.154
+  persistentVolumeReclaimPolicy: Recycle
+
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: nfs-claim1
+spec:
+  accessModes:
+    - ReadWriteOnce 
+  resources:
+    requests:
+      storage: 1Gi 
+
+kind: Pod
+apiVersion: v1
+metadata:
+  name: task-pv-pod1
+spec:
+  containers:
+    - name: task-pv-container
+      image: scmgalaxy/nginx-devopsschoolv1
+      ports:
+        - containerPort: 80
+          name: "http-server"
+      volumeMounts:
+        - mountPath: "/usr/share/nginx/html"
+          name: task-pv-storage
+  volumes:
+    - name: task-pv-storage
+      persistentVolumeClaim:
+        claimName: nfs-claim1
+
+
+PV and PVS using hostpath
+https://www.devopsschool.com/blog/persistentvolume-persistentvolumeclaim-volumes-using-hostpath/
+
+
+59  kubectl api-resources
+   60  kubectl api-resources | grep per
+   61  clear
+   62  c
+   63  kubectl get pv
+   64  kubectl get pv -n=rajesh
+   65  clear
+   66  ls
+   67  vi pv.yaml
+   68  kubectl create -f pv.yaml
+   69  kubectl get pv -n=rajesh
+   70  clear
+   71  l
+   72  ls
+   73  vi pvc.yaml
+   74  kubectl get pv -n=rajesh
+   75  kubectl create -f pvc.yaml -n=rajesh
+   76  kubectl get pvc
+   77  kubectl get pvc -n=rajesh
+   78  kubectl get pv -n=rajesh
+   79  vi pvc.yaml
+   80  kubectl create -f pvc.yaml -n=rajesh
+   81  kubectl get pvc -n=rajesh
+   82  vi pv.yaml
+   83  kubectl create -f pv.yaml
+   84  kubectl get pvc -n=rajesh
+   85  history
+
+
+   1  sudo yum install -y yum-utils device-mapper-persistent-data lvm2
+    2  sudo yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+    3  sudo yum install –y https://dl.fedoraproject.org/pub/epel/epel-release-latest-7.noarch.rpm
+    4  sudo yum-config-manager --enable rhui-REGION-rhel-server-extras
+    5  sudo yum install -y docker-ce
+    6  sudo systemctl enable docker
+    7  sudo systemctl start docker
+    8  cat <<EOF > /etc/yum.repos.d/kubernetes.repo
+    9  [kubernetes]
+   10  name=Kubernetes
+   11  baseurl=https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+   12  enabled=1
+   13  gpgcheck=1
+   14  repo_gpgcheck=1
+   15  gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+   16  exclude=kube*
+   17  EOF
+   18  setenforce 0
+   19  sed -i 's/^SELINUX=enforcing$/SELINUX=permissive/' /etc/selinux/config
+   20  yum install -y kubelet kubeadm kubectl --disableexcludes=kubernetes
+   21  systemctl enable --now kubelet
+   22  kubeadm init --ignore-preflight-errors all
+   23  exit
+   24  kubectl create ns lavanya
+   25  kubectl get ns
+   26  kubectl get pods
+   27  kubectl get nodes
+   28  ls
+   29  mkdir lavanya
+   30  cd lavanya
+   31  cd ../
+   32  cd rajesh
+   33  ls
+   34  cd ../
+   35  cd lavanya
+   36  vi emptydir.yaml
+   37  kubectl create ns lavanya
+   38  sudo -s
+   39  rpm -qa | grep nfs-utils
+   40  yum install nfs-utils rpcbind
+   41  systemctl enable nfs-server
+   42  systemctl enable rpcbind
+   43  systemctl enable nfs-lock
+   44  systemctl enable nfs-idmap
+   45  systemctl start rpcbind
+   46  systemctl start nfs-server
+   47  systemctl start nfs-lock
+   48  systemctl start nfs-idmap
+   49  systemctl status nfs
+   50  mkdir /softwareag
+   51  chmod 1777 /softwareag
+   52  vi /etc/exports
+   53  exportfs -r
+   54  systemctl restart nfs-server
+   55  showmount -e
+   56  clear
+   57  exit
+   58  cd /softwareag/
+   59  clear
+   60  ls
+   61  pwd
+   62  touch raj1 raj2
+   63  ls
+   64  ls
+   65  ls
 
 
 

@@ -401,6 +401,166 @@ spec:
   141  history
 
 
+   74  kubectl get pv -n=rajesh
+   75  kubectl create -f pvc.yaml -n=rajesh
+   76  kubectl get pvc
+   77  kubectl get pvc -n=rajesh
+   78  kubectl get pv -n=rajesh
+   79  vi pvc.yaml
+   80  kubectl create -f pvc.yaml -n=rajesh
+   81  kubectl get pvc -n=rajesh
+   82  vi pv.yaml
+   83  kubectl create -f pv.yaml
+   84  kubectl get pvc -n=rajesh
+   85  history
+   86  clear
+   87  kubectl
+   88  kubectl api-resources
+   89  kubectl api-resources | grep -i config
+   90  clear
+   91  kubectl api-resources | grep -i secret
+   92  kubectl get cm
+   93  kubectl get cm -n=rajesh
+   94  kubectl create
+   95  clear
+   96  ls
+   97  vi reverseproxy.conf
+   98  kubectl create configmap my-config --from-file=reverseproxy.conf
+   99  kubectl get cm -n=rajesh
+  100  kubectl create configmap my-config --from-file=reverseproxy.conf -n=rajesh
+  101  kubectl get cm -n=rajesh
+  102  kubectl describe cm my-config -n=rajesh
+  103  clear
+  104  kubectl get cm -n=rajesh
+  105  kubectl describe cm my-config -n=rajesh
+  106  cleae
+  107  clear
+  108  vi cm.yaml
+  109  kubectl create -f cm.yaml -n=rajesh
+  110  kubectl get pods -n=rajesh
+  111  kubectl exec helloworld-nginx ls /etc/nginx/conf.d
+  112  kubectl exec helloworld-nginx ls /etc/nginx/conf.d -n=rajesh
+  113  kubectl exec helloworld-nginx more /etc/nginx/conf.d/myconfo.conf -n=rajesh
+  114  clear
+  115  kubectl describe cm my-config -n=rajesh
+  116  clear
+  117  kubectl get secret -n=rajesh
+  118  kubectl get secret
+  119  kubectl describe secret default-token-k5n5q -n=rajesh
+  120  kubectl describe secret default-token-zlwpl -n=rajesh
+  121  clear
+  122  kubectl get pod -n=rajesh
+  123  kubectl describe pod helloworld-nginx -n=rajesh
+  124  clar
+  125  clear
+  126  echo -n 'admin' | base64
+  127  echo -n '1f2d1e2e67df' | base64
+  128  clear
+  129  vi sec.yaml
+  130  kubectl create -f sec.yaml -n=rajesh
+  131  kubectl get secret -n=rajesh
+  132  ls
+  133  vi sec-pod.yaml
+  134  kubectl create -f sec-pod.yaml -n=rajesh
+  135  kubectl get pod -n=rajesh
+  136  kubectl exec mypod ls /etc/foo
+  137  kubectl exec mypod ls /etc/foo -n=rajesh
+  138  kubectl exec mypod more /etc/foo/password -n=rajesh
+  139  kubectl exec mypod more /etc/foo/username -n=rajesh
+  140  clear
+  141  history
+  142  clear
+  143  kubectl explain secret.type
+  144  kubectl explain secret
+  145  kubectl explain secret.type
+  146  clear
+  147  ls
+  148  kubectl get cm -n=rajesh
+  149  kubectl edit cm -n=rajesh
+  150  clear
+  151  kubectl get deploy -n=rajesh
+  152  kubectl
+  153  clear
+  154  kubectl get pod -n=rajesh
+  155  history
+  156  kubectl edit cm -n=rajesh
+  157  kubectl exec mypod more /etc/foo/username -n=rajesh
+  158  kubectl exec helloworld-nginx more /etc/nginx/conf.d/myconfo.conf -n=rajesh
+  159  clear
+  160  kubectl edit cm -n=rajesh
+  161  kubectl exec helloworld-nginx more /etc/nginx/conf.d/myconfo.conf -n=rajesh
+  162  clear
+  163  sudo -s
+  164  clear
+  165  kubectl get svc
+  166  clear
+  167  ls
+  168  kubectl get svc -n=rajesh
+  169  kubectl get pods -n=rajesh
+  170  kubectl get pods -n=rajesh --show-lables
+  171  kubectl get pods -n=rajesh --show-labels
+  172  kubectl delete pod helloworld-nginx -n=rajesh
+  173  kubectl get pods -n=rajesh --show-lables
+  174  clear
+  175  kubectl get pods -n=rajesh --show-lables
+  176  kubectl get pods -n=rajesh --show-labels
+  177  kubectl get svc -n=rajesh --show-labels
+  178  kubectl create svc svc1  -n=rajesh
+  179  kubectl create svc svc1 -n=rajesh
+  180  kubectl create svc -h
+  181  kubectl create svc
+  182  kubectl help create svc
+  183  kubectl help create
+  184  kubectl help create service
+  185  kubectl help create service -h
+  186  kubectl create svc svc1 --type=clusterip -n=rajesh
+  187  kubectl create svc svc1 --tcp=80:80 -n=rajesh
+  188  kubectl create svc clusterip svc1 --tcp=80:80 -n=rajesh
+  189  clear
+  190  kubectl get svc -n=rajesh --show-labels
+  191  kubectl describe svc svc1 -n=rajesh
+  192  kubectl edit svc svc1 -n=rajesh
+  193  kubectl describe svc svc1 -n=rajesh
+  194  kubectl get pod --show-labels -n=rajesh
+  195  kubectl lable -h?
+  196  kubectl lable -h
+  197  kubectl label -h
+  198  clear
+  199  kubectl get pod --show-labels -n=rajesh
+  200  kubectl describe svc svc1 -n=rajesh
+  201  kubectl get pod --show-labels -n=rajesh
+  202  kubectl get svc -n=rajesh --show-labels
+  203  kubectl label pods mypod app=svc2
+  204  kubectl label pods mypod app=svc2 -n=rajesh
+  205  kubectl get svc -n=rajesh --show-labels
+  206  kubectl get pod --show-labels -n=rajesh
+  207  kubectl describe svc svc1 -n=rajesh
+  208  kubectl get svc -n=rajesh
+  209  curl http://10.97.125.221'
+  210  curl http://10.97.125.221
+  211  kubectl get pod --show-labels -n=rajesh
+  212  kubectl edit svc svc1 -n=rajesh
+  213  kubectl describe svc svc1 -n=rajesh
+  214  curl http://10.97.125.221
+  215  clear
+  216  ls
+  217  kubectl create deployment my-dep --image=nginx -n=rajesh
+  218  kubectl get deploy -n=rajesh
+  219  kubectl scale -h
+  220  clear
+  221  kubectl get deploy -n=rajesh
+  222  kubectl scale --replicas=5 deploy/my-dep
+  223  kubectl scale --replicas=5 deploy/my-dep -n=rajesh
+  224  kubectl get deploy -n=rajesh
+  225  clear
+  226  kubectl get pod -n=rajesh --show-labels
+  227  kubectl edit svc svc1 -n=rajesh
+  228  kubectl describe svc svc1 -n=rajesh
+  229  kubectl edit svc svc1 -n=rajesh
+  230  kubectl get svc -n=rajesh
+  231  kubectl get svc
+  232  kubectl describe svc kubernetes
+  233  history
 
 
 

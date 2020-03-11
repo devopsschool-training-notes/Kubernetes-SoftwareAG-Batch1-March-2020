@@ -16,7 +16,9 @@ Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
 Then you can join any number of worker nodes by running the following on each as root:
 
 kubeadm join 172.31.31.154:6443 --token sg2v48.cba6wg15cv0sp1f0 \
-    --discovery-token-ca-cert-hash sha256:f2aed24976962494d82a82a33adaea01bc6fde6a077f3edf6791986714f1f97c
+    --discovery-token-ca-cert-hash 
+
+sha256:f2aed24976962494d82a82a33adaea01bc6fde6a077f3edf6791986714f1f97c
 
 
 EMPTYDIR
@@ -63,7 +65,9 @@ spec:
 ==========================================================
 NFS
 https://www.devopsschool.com/blog/setup-nfs-server-and-use-inside-a-kubernetes-pods-in-rhel-centos7/
-https://www.devopsschool.com/blog/kubernetes-persistentvolume-and-persistentvolumeclaim-using-nfs-volume-types/
+https://www.devopsschool.com/blog/kubernetes-persistentvolume-and-persistentvolumeclaim-using-nfs-
+
+volume-types/
 
 
 apiVersion: apps/v1
@@ -120,7 +124,9 @@ status: {}
 
 =========================================
 PV and PVC using nfs
-https://www.devopsschool.com/blog/kubernetes-persistentvolume-and-persistentvolumeclaim-using-nfs-volume-types/
+https://www.devopsschool.com/blog/kubernetes-persistentvolume-and-persistentvolumeclaim-using-nfs-
+
+volume-types/
 
 
 apiVersion: v1
@@ -215,7 +221,9 @@ https://www.devopsschool.com/blog/persistentvolume-persistentvolumeclaim-volumes
    12  enabled=1
    13  gpgcheck=1
    14  repo_gpgcheck=1
-   15  gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+   15  gpgkey=https://packages.cloud.google.com/yum/doc/yum-key.gpg 
+
+https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
    16  exclude=kube*
    17  EOF
    18  setenforce 0
@@ -266,6 +274,137 @@ https://www.devopsschool.com/blog/persistentvolume-persistentvolumeclaim-volumes
    63  ls
    64  ls
    65  ls
+==========================================================
+ConfigMap
+https://www.devopsschool.com/blog/kubernetes-configmap-explained-using-example/
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: helloworld-nginx
+  labels:
+    app: helloworld-nginx
+spec:
+  containers:
+  - name: nginx
+    image: nginx:1.11
+    ports:
+    - containerPort: 80
+    volumeMounts:
+    - name: config-volume
+      mountPath: /etc/nginx/conf.d
+  - name: k8s-demo
+    image: scmgalaxy/nginx-devopsschoolv1
+    ports:
+    - containerPort: 3000
+  volumes:
+    - name: config-volume
+      configMap:
+        name: my-config
+        items:
+        - key: reverseproxy.conf
+          path: myconfo.conf
+
+
+Secret
+=====================================
+Secret ENCODE a Content.
+https://www.devopsschool.com/tutorial/kubernetes/kubernetes-resource-objects/secrets-example-
+
+programs.html
+
+
+
+apiVersion: v1
+kind: Secret
+metadata:
+  name: mysecret
+type: Opaque
+data:
+  username: YWRtaW4=
+  password: MWYyZDFlMmU2N2Rm
+
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: mypod
+spec:
+  containers:
+  - name: mypod
+    image: scmgalaxy/nginx-devopsschoolv1
+    volumeMounts:
+    - name: foo
+      mountPath: "/etc/foo"
+      readOnly: true
+  volumes:
+  - name: foo
+    secret:
+      secretName: mysecret
+
+
+
+88  kubectl api-resources
+   89  kubectl api-resources | grep -i config
+   90  clear
+   91  kubectl api-resources | grep -i secret
+   92  kubectl get cm
+   93  kubectl get cm -n=rajesh
+   94  kubectl create
+   95  clear
+   96  ls
+   97  vi reverseproxy.conf
+   98  kubectl create configmap my-config --from-file=reverseproxy.conf
+   99  kubectl get cm -n=rajesh
+  100  kubectl create configmap my-config --from-file=reverseproxy.conf -n=rajesh
+  101  kubectl get cm -n=rajesh
+  102  kubectl describe cm my-config -n=rajesh
+  103  clear
+  104  kubectl get cm -n=rajesh
+  105  kubectl describe cm my-config -n=rajesh
+  106  cleae
+  107  clear
+  108  vi cm.yaml
+  109  kubectl create -f cm.yaml -n=rajesh
+  110  kubectl get pods -n=rajesh
+  111  kubectl exec helloworld-nginx ls /etc/nginx/conf.d
+  112  kubectl exec helloworld-nginx ls /etc/nginx/conf.d -n=rajesh
+  113  kubectl exec helloworld-nginx more /etc/nginx/conf.d/myconfo.conf -n=rajesh
+  114  clear
+  115  kubectl describe cm my-config -n=rajesh
+  116  clear
+  117  kubectl get secret -n=rajesh
+  118  kubectl get secret
+  119  kubectl describe secret default-token-k5n5q -n=rajesh
+  120  kubectl describe secret default-token-zlwpl -n=rajesh
+  121  clear
+  122  kubectl get pod -n=rajesh
+  123  kubectl describe pod helloworld-nginx -n=rajesh
+  124  clar
+  125  clear
+  126  echo -n 'admin' | base64
+  127  echo -n '1f2d1e2e67df' | base64
+  128  clear
+  129  vi sec.yaml
+  130  kubectl create -f sec.yaml -n=rajesh
+  131  kubectl get secret -n=rajesh
+  132  ls
+  133  vi sec-pod.yaml
+  134  kubectl create -f sec-pod.yaml -n=rajesh
+  135  kubectl get pod -n=rajesh
+  136  kubectl exec mypod ls /etc/foo
+  137  kubectl exec mypod ls /etc/foo -n=rajesh
+  138  kubectl exec mypod more /etc/foo/password -n=rajesh
+  139  kubectl exec mypod more /etc/foo/username -n=rajesh
+  140  clear
+  141  history
+
+
+
+
+
+
 
 
 

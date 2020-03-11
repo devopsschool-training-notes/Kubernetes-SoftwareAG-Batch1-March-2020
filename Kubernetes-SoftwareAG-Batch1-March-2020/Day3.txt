@@ -1,0 +1,65 @@
+Master + WORKStation - 52.66.125.191
+WORKER 1 - 13.233.161.212
+WORKER 2 - 13.127.27.130
+
+
+To start using your cluster, you need to run the following as a regular user:
+
+  mkdir -p $HOME/.kube
+  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+
+You should now deploy a pod network to the cluster.
+Run "kubectl apply -f [podnetwork].yaml" with one of the options listed at:
+  https://kubernetes.io/docs/concepts/cluster-administration/addons/
+
+Then you can join any number of worker nodes by running the following on each as root:
+
+kubeadm join 172.31.31.154:6443 --token sg2v48.cba6wg15cv0sp1f0 \
+    --discovery-token-ca-cert-hash sha256:f2aed24976962494d82a82a33adaea01bc6fde6a077f3edf6791986714f1f97c
+
+
+EMPTYDIR
+==================
+https://www.devopsschool.com/blog/kubernetes-volume-emptydir-explained-with-examples/
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: scmgalaxy/nginx-devopsschoolv1
+    name: test-container
+    volumeMounts:
+    - mountPath: /cache
+      name: cache-volume
+  volumes:
+  - name: cache-volume
+    emptyDir: {}
+=================================
+hostpath
+https://www.devopsschool.com/blog/kubernetes-volume-hostpath-explained-with-examples/
+
+apiVersion: v1
+kind: Pod
+metadata:
+  name: test-pd
+spec:
+  containers:
+  - image: scmgalaxy/nginx-devopsschoolv1
+    name: test-container
+    volumeMounts:
+    - mountPath: /test-pd
+      name: test-volume
+  volumes:
+  - name: test-volume
+    hostPath:
+      # directory location on host
+      path: /data
+      # this field is optional
+      type: DirectoryOrCreate
+
+
+
+

@@ -465,6 +465,115 @@ user/rajesh/rajesh.crt -days 500
   168  kubectl get pods --context=rajesh-context -n=raju
   169  history
 
+====================================================================================================================================
+====================================================================================================================================
+====================================================================================================================================
+
+How to install helm?
+
+ 185  wget https://get.helm.sh/helm-v3.1.1-linux-amd64.tar.gz
+  186  yum install wget -y
+  187  sudo yum install wget -y
+  188  clear
+  189  ls
+  190  wget https://get.helm.sh/helm-v3.1.1-linux-amd64.tar.gz
+  191  clear
+  192  ls
+  193  tar -zxvf helm-v3.1.1-linux-amd64.tar.gz
+  194  clear
+  195  ls
+  196  cd linux-amd64
+  197  ls
+  198  echo $PATH
+  199  chmod 755 /usr/bin
+  200  chmod 755 helm
+  201  sudo cp helm /usr/bin
+  202  clear
+  203  helm
+
+
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install bitnami/wordpress --version 9.0.3
+
+
+
+ 211  helm repo add bitnami https://charts.bitnami.com/bitnami
+  212  helm
+  213  helm repo list
+  214  helm install bitnami/wordpress --version 9.0.3
+  215  clear
+  216  helm install bitnami/wordpress --version 9.0.3
+  217  helm install bitnami/wordpress --version 9.0.3 --generate-name
+  218  kubectl get svc
+  219  curl http://10.111.166.208
+  220  kubectl get pods
+  221  kubectl describe pod wordpress-1584003794-6ff58f48bd-ntq4q
+  222  kubectl get pvc
+  223  kubectl get pv
+  224  helm
+  225  helm list
+  226  helm
+  227  helm show
+  228  helm show all
+  229  helm show all bitnami
+  230  helm show all
+  231  helm
+  232  cd
+  233  cd .local
+  234  ls
+  235  cdd
+  236  ls
+  237  pwd
+  238  cd .config/helm
+  239  ls
+  240  more repositories.
+  241  more repositories.yaml
+  242  cd
+  243  ls
+  244  ls -la
+  245  cd .cache
+  246  ls
+  247  cd helm/
+  248  ls
+  249  cd repository/
+  250  ls
+  251  tar -zxvf wordpress-9.0.3.tgz
+  252  ls
+  253  clear
+  254  ls
+  255  cd wordpress
+  256  ls
+  257  cd templates
+  258  ls
+  259  helm
+  260  helm list
+  261  helm uninstall wordpress-1584003794
+  262  helm list
+  263  kubectl get pods
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 

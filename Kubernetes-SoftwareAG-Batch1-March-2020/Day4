@@ -556,6 +556,594 @@ helm install bitnami/wordpress --version 9.0.3
 
 
 
+Master - 13.232.58.137
+Worker - 15.206.82.27
+
+Authentication and Authorization with K8s.
+
+Authentication
+    	Certificates
+	Tokens
+
+Authorization
+    ABAC
+    RBAC - Certificates to Authenticate
+           Roles to Authorize
+================================================
+TYPES of USERS
+    - NORMAL USERS - 
+          using certificates    
+          This user has no api resources 
+          For humen interaction with API Server         
+    - SERVICE ACCOUNT 
+          - Secret Tokens
+          - This can be created using api resources
+          - For KUBERNETES Control plane internal authentication and Auth.
+
+Types of roles on RBAC?
+    - Roles
+        - Limited to Namespace
+        - Humen
+        - rules
+    - clusterroles
+        - Scope to ClustorWIde.
+        - Clustor Releated Access.\
+            - Can add humen.
+        - rules
+            apiGroups
+            resourceNames
+            resources
+            verbs
+               - create
+                - get
+                - delete
+                - list
+                - update
+                - edit
+                - watch
+                - exec
+
+=====================================
+normal-user	
+serviceaccount
+		roles		---> rolebindings
+		clusterroles	---> clusterrolebindings
+system:masters
+==========================================================
+
+  7  kubectl get nodes
+    8  clear
+    9  kubectl get pods
+   10  kubectl
+   11  kubectl api-resources
+   12  kubectl get sa
+   13  kubectl describe sa default
+   14  kubectl get secrets
+   15  kubectl describe secret default-token-7w7bx
+   16  clear
+   17  mkdir rajesh
+   18  cd rajesh/
+   19  ls
+   20  vi pod.yaml
+   21  kubectl create -f pod.yaml
+   22  kubectl get pod
+   23  kubectl get pod -w
+   24  clear
+   25  ls
+   26  kubectl get pod -w
+   27  kubectl describe pods hello-pod
+   28  kubectl get sa
+   29  clear
+   30  kubectl create -h
+   31  lear
+   32  clear
+   33  kubectl create ns raju
+   34  kubectl get sa -n=raju
+   35  kubectl get sa --all-namespaces
+   36  kubectl get secret --all-namespaces
+   37  clear
+   38  kubectl
+   39  kubectl api-resources
+   40  clear
+   41  kubectl api-resources
+   42  kubectl api-resources | grep -i role
+   43  clear
+   44  kubectl api-resources | grep -i role
+   45  kubectl get roles
+   46  kubectl get roles --all-namespaces
+   47* kubectl
+   48  history
+   49  kubectl api-resources | grep -i role
+   50  kubectl describe clusterroles cluster-admin
+   51  kubectl get sa
+   52  kubectl describe sa default
+   53  kubectl describe clusterroles cluster-admin
+   54  kubectl describe clusterroles admin
+   55  clear
+   56  ls
+   57  kubectl get sa
+   58  kubectl get roles
+   59  kubectl get roles --all-namespaces
+   60  kubectl api-resources
+   61* kubectl get clu
+   62  clear
+   63  ls
+   64  kubectl api-resources | grep -i role
+   65  clear
+   66  kubectl api-resources | grep -i role
+   67  kubectl get rolebindings
+   68  kubectl get clusterrolebindings
+   69  kubectl describe clusterrolebindings cluster-admin
+   70  kubectl get sa
+   71  kubectl get sa --all-namespaces
+   72  kubectl describe sa kube-system
+   73  kubectl describe sa kube-system -n=kube-system
+   74  kubectl describe sa default
+   75  kubectl describe sa service-account-controller
+   76  kubectl describe sa service-account-controller -n=kube-system
+   77  clear
+=====================================
+
+kubectl create sa software-raj
+kubectl get sa -A | grep soft
+
+sa.yaml
+---------------
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: softag-raj-admin
+
+kubectl create -f sa.yaml
+kubectl get sa -A | grep tec
+kubectl get secrets
+
+role
+==============================
+
+kubectl help create clusterrole
+kubectl create clusterrole soft-clusterroles1 --verb=get,list,watch --resource=pods
+kubectl get clusterrole
+kubectl describe clusterrole soft-clusterroles1
+
+kind: Role
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: rajesh
+  name: softwareag-role1
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["deployments", "replicasets", "pods"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"] # You can also use ["*"]
+
+kind: ClusterRole
+apiVersion: rbac.authorization.k8s.io/v1beta1
+metadata:
+  namespace: default
+  name: softwareag-clusterroles2
+rules:
+- apiGroups: ["", "extensions", "apps"]
+  resources: ["deployments", "replicasets", "pods"]
+  verbs: ["get", "list", "watch", "create", "update", "patch", "delete"] # You can also use ["*"]
+============================================
+
+
+kubectl create rolebinding sg-rolebinding --role=softwareag-role1 --user=softag-raj-admin
+kubectl get rolebinding
+kubectl get rolebinding 
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tecnotree-binding3
+subjects:
+- kind: ServiceAccount
+  name: softag-raj-admin
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: tecnotree-clusterroles2
+  apiGroup: rbac.authorization.k8s.io
+
+kind: RoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tecnotree-binding3
+subjects:
+- kind: User
+  name: rajesh
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: Role
+  name: softwareag-role1
+  apiGroup: rbac.authorization.k8s.io
+
+===============================================
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tecnotree-cr-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tecnotree-clusterroles2
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: tecnotree-admin
+===================================================
+
+kubectl create clusterrolebinding tecnotree-cr-binding --clusterrole=tecnotree-clusterroles2 --user=tecnotree-admin
+kubectl get clusterrolebinding
+kubectl get clusterrolebinding | grep tec
+
+kind: ClusterRoleBinding
+apiVersion: rbac.authorization.k8s.io/v1
+metadata:
+  name: tecnotree-cr-binding3
+subjects:
+- kind: ServiceAccount
+  name: tecnotree-admin
+  apiGroup: rbac.authorization.k8s.io
+roleRef:
+  kind: ClusterRole
+  name: tecnotree-clusterroles2
+  apiGroup: rbac.authorization.k8s.io
+
+apiVersion: rbac.authorization.k8s.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: tecnotree-cr-binding
+roleRef:
+  apiGroup: rbac.authorization.k8s.io
+  kind: ClusterRole
+  name: tecnotree-clusterroles2
+subjects:
+- apiGroup: rbac.authorization.k8s.io
+  kind: User
+  name: tecnotree-admin
+
+
+=========================
+kubectl convert -f pod.yaml
+kubectl convert -f pod.yaml --local -o json
+kubectl convert -f . | kubectl create -f -
+
+==============================
+ROLE BINDING SPEC
+
+--------------------------------
+subjects:
+- kind: User
+  name: example-user
+  apiGroup: rbac.authorization.k8s.io
+
+subjects.kinds CAN BE 
+          User
+          Group
+          ServiceAccount
+
+
+Humen --> PUBLIC/PVT Key --> Get CSR from pvt key--> CSR file would be sent to CA --> CA WOULD Create cer using CSR. => CA would give cer to Human 
+
+---> Now human can use pvt and cer to auth MASTER.
+===============================================
+
+
+======USER At LAPTOP==================
+kubectl create namespace rajesh
+
+openssl genrsa -out rajesh.key 2048
+
+openssl req -new -key rajesh.key -out rajesh.csr -subj "/CN=rajesh/O=bitnami"
+
+======ADMIN AT MASTER using root==================
+openssl x509 -req -in rajesh.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out /home/ec2-
+
+user/rajesh/rajesh.crt -days 500
+
+======USER At LAPTOP==================
+kubectl config set-credentials rajesh --client-certificate=/home/ec2-user/rajesh/rajesh.crt  --client-key=/home/ec2-user/rajesh/rajesh.key
+
+kubectl config set-context rajesh-context --cluster=kubernetes --namespace=rajesh --user=rajesh
+
+kubectl get pods --context=rajesh-context 
+=======================================================
+
+
+    2  mkdir -p $HOME/.kube
+    3  sudo cp -i /etc/kubernetes/admin.conf $HOME/.kube/config
+    4  sudo chown $(id -u):$(id -g) $HOME/.kube/config
+    5  kubectl apply -f "https://cloud.weave.works/k8s/net?k8s-version=$(kubectl version | base64 | tr -d '\n')"
+    6  clear
+    7  kubectl get nodes
+    8  clear
+    9  kubectl get pods
+   10  kubectl
+   11  kubectl api-resources
+   12  kubectl get sa
+   13  kubectl describe sa default
+   14  kubectl get secrets
+   15  kubectl describe secret default-token-7w7bx
+   16  clear
+   17  mkdir rajesh
+   18  cd rajesh/
+   19  ls
+   20  vi pod.yaml
+   21  kubectl create -f pod.yaml
+   22  kubectl get pod
+   23  kubectl get pod -w
+   24  clear
+   25  ls
+   26  kubectl get pod -w
+   27  kubectl describe pods hello-pod
+   28  kubectl get sa
+   29  clear
+   30  kubectl create -h
+   31  lear
+   32  clear
+   33  kubectl create ns raju
+   34  kubectl get sa -n=raju
+   35  kubectl get sa --all-namespaces
+   36  kubectl get secret --all-namespaces
+   37  clear
+   38  kubectl
+   39  kubectl api-resources
+   40  clear
+   41  kubectl api-resources
+   42  kubectl api-resources | grep -i role
+   43  clear
+   44  kubectl api-resources | grep -i role
+   45  kubectl get roles
+   46  kubectl get roles --all-namespaces
+   47* kubectl
+   48  history
+   49  kubectl api-resources | grep -i role
+   50  kubectl describe clusterroles cluster-admin
+   51  kubectl get sa
+   52  kubectl describe sa default
+   53  kubectl describe clusterroles cluster-admin
+   54  kubectl describe clusterroles admin
+   55  clear
+   56  ls
+   57  kubectl get sa
+   58  kubectl get roles
+   59  kubectl get roles --all-namespaces
+   60  kubectl api-resources
+   61* kubectl get clu
+   62  clear
+   63  ls
+   64  kubectl api-resources | grep -i role
+   65  clear
+   66  kubectl api-resources | grep -i role
+   67  kubectl get rolebindings
+   68  kubectl get clusterrolebindings
+   69  kubectl describe clusterrolebindings cluster-admin
+   70  kubectl get sa
+   71  kubectl get sa --all-namespaces
+   72  kubectl describe sa kube-system
+   73  kubectl describe sa kube-system -n=kube-system
+   74  kubectl describe sa default
+   75  kubectl describe sa service-account-controller
+   76  kubectl describe sa service-account-controller -n=kube-system
+   77  clear
+   78  history
+   79  clear
+   80  kubectl create sa software-raj
+   81  kubectl get sa -A
+   82  kubectl get sa -A | grep soft
+   83  clear
+   84  kubectl get sa -A | grep soft
+   85  clear
+   86  ls
+   87  vi sa.yaml
+   88  kubectl create -f sa.yaml
+   89  kubectl get sa -A | grep soft
+   90  kubectl get secrets
+   91  clear
+   92  kubectl create clusterrole soft-clusterroles1 --verb=get,list,watch --resource=pods
+   93  clusterrole.rbac.authorization.k8s.io/soft-clusterroles1
+   94  kubectl get clusterrole
+   95  clear
+   96  kubectl describe clusterrole soft-clusterroles1
+   97  vi cr.yaml
+   98  kubectl create -f cr.yaml
+   99  kubectl get clusterrole
+  100  kubectl get clusterrole | grep soft
+  101  kubectl describe clusterrole softwareag-clusterroles2
+  102  kubectl get role | grep soft
+  103  kubectl get roles | grep soft
+  104  kubectl get roles
+  105  kubectl get roles -A
+  106  clear
+  107  vi role.yaml
+  108  kubectl create -f role.yaml
+  109  kubectl get roles -A
+  110  kubectl get sa -A
+  111  clear
+  112  kubectl create rolebinding sg-rolebinding --role=softwareag-role1 --user=softag-raj-admin
+  113  kubectl get rolebinding
+  114  kubectl describe rolebinding sg-rolebinding
+  115  kubectl describe role softwareag-role1
+  116  clear
+  117  kubectl describe rolebinding sg-rolebinding
+  118  clear
+  119  kubectl
+  120  kubectl config
+  121  kubectl config view
+  122  clear
+  123  ls
+  124  kubectl create namespace rajesh
+  125  clear
+  126  ls
+  127  openssl genrsa -out rajesh.key 2048
+  128  ls
+  129  clear
+  130  openssl req -new -key rajesh.key -out rajesh.csr -subj "/CN=rajesh/O=bitnami"
+  131  ls
+  132  owd
+  133  pwd
+  134  sudo openssl x509 -req -in rajesh.csr -CA /etc/kubernetes/pki/ca.crt -CAkey /etc/kubernetes/pki/ca.key -CAcreateserial -out /home/ec2-
+
+user/rajesh/rajesh.crt -days 500
+  135  ls
+  136  rm -rf rajesh.csr
+  137  clear
+  138  ls
+  139  kubectl config view
+  140  clear
+  141  pwd
+  142  ls
+  143  kubectl config set-credentials rajesh --client-certificate=/home/ec2-user/rajesh/rajesh.crt  --client-key=/home/ec2-
+  144  user/rajesh/rajesh.key
+  145  kubectl config set-credentials rajesh --client-certificate=/home/ec2-user/rajesh/rajesh.crt  --client-key=/home/ec2-user/rajesh/rajesh.key
+  146  kubectl config view
+  147  clear
+  148  kubectl config set-context rajesh-context --cluster=kubernetes --namespace=rajesh --user=rajesh
+  149  kubectl config view
+  150  clear
+  151  kubectl get pods --context=rajesh-context
+  152  kubectl get rolebinding
+  153  kubectl get rolebinding -n=rajesh
+  154  kubectl get role -n=rajesh
+  155  ls
+  156  vi r.yaml
+  157  kubectl craete -f r.yaml -n=rajesh
+  158  kubectl create -f r.yaml -n=rajesh
+  159  clear
+  160  kubectl get role -n=rajesh
+  161  vi rb.yaml
+  162  kubectl create -f rb.yaml -n=rajesh
+  163  kubectl get rolebinding -n=rajesh
+  164  kubectl describe rolebinding tecnotree-binding3 -n=rajesh
+  165  kubectl get pods --context=rajesh-context
+  166  kubectl get pods
+  167  kubectl get pods --context=rajesh-context
+  168  kubectl get pods --context=rajesh-context -n=raju
+  169  history
+
+====================================================================================================================================
+====================================================================================================================================
+====================================================================================================================================
+
+How to install helm?
+
+ 185  wget https://get.helm.sh/helm-v3.1.1-linux-amd64.tar.gz
+  186  yum install wget -y
+  187  sudo yum install wget -y
+  188  clear
+  189  ls
+  190  wget https://get.helm.sh/helm-v3.1.1-linux-amd64.tar.gz
+  191  clear
+  192  ls
+  193  tar -zxvf helm-v3.1.1-linux-amd64.tar.gz
+  194  clear
+  195  ls
+  196  cd linux-amd64
+  197  ls
+  198  echo $PATH
+  199  chmod 755 /usr/bin
+  200  chmod 755 helm
+  201  sudo cp helm /usr/bin
+  202  clear
+  203  helm
+
+
+
+
+helm repo add bitnami https://charts.bitnami.com/bitnami
+
+helm install bitnami/wordpress --version 9.0.3
+
+
+
+ 211  helm repo add bitnami https://charts.bitnami.com/bitnami
+  212  helm
+  213  helm repo list
+  214  helm install bitnami/wordpress --version 9.0.3
+  215  clear
+  216  helm install bitnami/wordpress --version 9.0.3
+  217  helm install bitnami/wordpress --version 9.0.3 --generate-name
+  218  kubectl get svc
+  219  curl http://10.111.166.208
+  220  kubectl get pods
+  221  kubectl describe pod wordpress-1584003794-6ff58f48bd-ntq4q
+  222  kubectl get pvc
+  223  kubectl get pv
+  224  helm
+  225  helm list
+  226  helm
+  227  helm show
+  228  helm show all
+  229  helm show all bitnami
+  230  helm show all
+  231  helm
+  232  cd
+  233  cd .local
+  234  ls
+  235  cdd
+  236  ls
+  237  pwd
+  238  cd .config/helm
+  239  ls
+  240  more repositories.
+  241  more repositories.yaml
+  242  cd
+  243  ls
+  244  ls -la
+  245  cd .cache
+  246  ls
+  247  cd helm/
+  248  ls
+  249  cd repository/
+  250  ls
+  251  tar -zxvf wordpress-9.0.3.tgz
+  252  ls
+  253  clear
+  254  ls
+  255  cd wordpress
+  256  ls
+  257  cd templates
+  258  ls
+  259  helm
+  260  helm list
+  261  helm uninstall wordpress-1584003794
+  262  helm list
+  263  kubectl get pods
+
+Task 
+=================================
+Jobs
+Cron Jobs
+Daemon Sets 
+Statefull sets
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
